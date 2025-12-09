@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Produits</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Nos iPhones</h1>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="panier.html">Panier</a>
+    </nav>
+</header>
+
+<section class="produits">
+
+    <!-- iPhone produit -->
+    <div class="carte">
+        <img src="https://via.placeholder.com/250" alt="iPhone">
+        <h3>iPhone 11</h3>
+        <p>Prix : <strong>300€</strong></p>
+        <button onclick="ajoutPanier('iPhone 11', 300)">Ajouter au panier</button>
+    </div>
+
+    <div class="carte">
+        <img src="https://via.placeholder.com/250" alt="iPhone">
+        <h3>iPhone XR</h3>
+        <p>Prix : <strong>300€</strong></p>
+        <button onclick="ajoutPanier('iPhone XR', 300)">Ajouter au panier</button>
+    </div>
+
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

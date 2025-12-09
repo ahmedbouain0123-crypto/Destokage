@@ -1,0 +1,198 @@
+<!-- Projet complet e-commerce iPhone avec design pro + paiement Stripe & PayPal -->
+<!-- FICHIER 1 : index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>iPhone Store Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+<header>
+    <h1>Apple Store Premium</h1>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="panier.html">Panier</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>iPhones Premium à 300€</h2>
+    <p>Qualité Apple. Prix imbattable.</p>
+    <a class="btn" href="produits.html">Voir les produits</a>
+</section>
+
+</body>
+</html>
+
+<!-- FICHIER 2 : produits.html -->
+<!-- Mettre ce contenu dans produits.html -->
+<!-- Copier/coller en dehors de ce fichier pour créer les autres fichiers -->
+
+<!-- debut produits.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Produits - iPhone Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Nos iPhones</h1>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="panier.html">Panier</a>
+    </nav>
+</header>
+
+<section class="produits">
+    <div class="carte">
+        <img src="https://via.placeholder.com/250" alt="iPhone 11">
+        <h3>iPhone 11</h3>
+        <p>300€</p>
+        <button onclick="ajoutPanier('iPhone 11', 300)">Ajouter au panier</button>
+    </div>
+
+    <div class="carte">
+        <img src="https://via.placeholder.com/250" alt="iPhone XR">
+        <h3>iPhone XR</h3>
+        <p>300€</p>
+        <button onclick="ajoutPanier('iPhone XR', 300)">Ajouter au panier</button>
+    </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
+<!-- fin produits.html -->
+
+
+<!-- FICHIER 3 : panier.html -->
+<!-- debut panier.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Votre Panier</h1>
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="produits.html">Produits</a>
+        <a href="panier.html">Panier</a>
+    </nav>
+</header>
+
+<section class="panier" id="panier"></section>
+<h2 id="total"></h2>
+
+<a class="btn" href="paiement.html">Procéder au paiement</a>
+
+<script src="script.js"></script>
+</body>
+</html>
+<!-- fin panier.html -->
+
+
+<!-- FICHIER 4 : paiement.html avec Stripe + PayPal -->
+<!-- debut paiement.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paiement sécurisé</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Paiement sécurisé</h1>
+</header>
+
+<section class="hero">
+    <h2>Payer votre commande</h2>
+    <p>Total : <span id="montant"></span>€</p>
+
+    <h3>💳 Paiement par Stripe</h3>
+    <button class="btn" id="stripeBtn">Payer avec Stripe</button>
+
+    <h3>💸 Paiement PayPal</h3>
+    <div id="paypal-button-container"></div>
+</section>
+
+<script>
+// PayPal Buttons
+paypal.Buttons({
+    createOrder: function(data, actions) {
+        return actions.order.create({
+            purchase_units: [{ amount: { value: localStorage.getItem('total') || '300' } }]
+        });
+    },
+    onApprove: function(data, actions) {
+        alert("Paiement PayPal réussi !");
+        localStorage.clear();
+    }
+}).render('#paypal-button-container');
+
+// Stripe Logic
+const stripe = Stripe("YOUR_STRIPE_PUBLIC_KEY");
+document.getElementById("stripeBtn").onclick = async () => {
+    alert("Stripe nécessite un backend (je peux te le générer aussi)");
+};
+
+document.getElementById('montant').innerText = localStorage.getItem('total') || 300;
+</script>
+
+</body>
+</html>
+<!-- fin paiement.html -->
+
+
+<!-- FICHIER 5 : style.css -->
+/* design premium type Apple */
+body { font-family: Arial; margin: 0; background: #eef1f5; }
+header { background: black; color: white; padding: 15px; text-align: center; }
+nav a { color: white; margin: 0 15px; text-decoration: none; }
+.hero { text-align: center; padding: 50px; background: white; margin: 40px; border-radius: 20px; }
+.btn { padding: 15px 30px; background: black; color: white; display: inline-block; margin-top: 15px; border-radius: 10px; }
+.produits { display: flex; justify-content: center; gap: 20px; padding: 40px; }
+.carte { background: white; padding: 20px; border-radius: 15px; width: 260px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.panier { background: white; padding: 20px; margin: 20px; border-radius: 10px; }
+
+
+<!-- FICHIER 6 : script.js -->
+function ajoutPanier(nom, prix) {
+    let panier = JSON.parse(localStorage.getItem("panier")) || [];
+    panier.push({ nom, prix });
+    localStorage.setItem("panier", JSON.stringify(panier));
+    alert("Produit ajouté au panier !");
+}
+
+function afficherPanier() {
+    let panier = JSON.parse(localStorage.getItem("panier")) || [];
+    let zone = document.getElementById("panier");
+    let total = 0;
+
+    zone.innerHTML = "";
+    panier.forEach(item => {
+        zone.innerHTML += `<p>${item.nom} - ${item.prix}€</p>`;
+        total += item.prix;
+    });
+
+    document.getElementById("total").innerText = "Total : " + total + "€";
+    localStorage.setItem("total", total);
+}
+
+if (window.location.pathname.includes("panier.html")) afficherPanier();
